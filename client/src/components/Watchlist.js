@@ -47,7 +47,7 @@ class Watchlist extends Component{
                 Your Watchlist:
             </h1>
         {this.state.done? 
-        <div className="results">{this.state.output}</div>:<p>{this.state.msg}</p>}
+        <div className="card-columns">{this.state.output}</div>:<p>{this.state.msg}</p>}
       </div>
     </div>
   </div>
