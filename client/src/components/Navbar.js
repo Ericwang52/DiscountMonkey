@@ -74,7 +74,7 @@ class Navbar extends Component {
             {
               context => {
                 return context.loggedIn? (
-                <Link to="/" onClick={context.toggleLogout} style={{width: "140px", borderRadius: "3px",}} className="btn">
+                <Link to="/" onClick={context.toggleLogout} style={{width: "100%", textAlign:"left"}} className="btn">
                 <span className="navItem">LOG OUT &nbsp;</span>
                 </Link>
                 ): null

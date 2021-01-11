@@ -28,7 +28,7 @@ class Search extends Component {
 
     }
     this.setState({msg:<div className="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
+    <span className="sr-only">Loading...</span>
   </div>, products:{searchProductDetails:[]}})
   //  this.setState({msg:"Loading..."})
     fetch("/api/amazon/search?keywords="+this.state.query, requestOptions).then(response=>response.json()).then(data=>{
@@ -59,7 +59,7 @@ class Search extends Component {
 
             <form className="searchform" noValidate onSubmit={this.searchQuery} style={{marginBottom:10}}>
                 <input className="formtext" ref={this.queryInput} value={this.state.query} onChange={this.editQuery} type="text" placeholder="Search"/> 
-                <button type="submit"><i class="fa fa-search"></i></button>
+                <button type="submit"><i className="fa fa-search"></i></button>
             </form>
             {this.state.products.searchProductDetails && this.state.products.searchProductDetails.length>0? 
             <div className="card-columns">{this.state.output}</div>:<p>{this.state.msg}</p>}
