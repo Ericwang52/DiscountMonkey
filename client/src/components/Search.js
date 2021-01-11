@@ -27,7 +27,7 @@ class Search extends Component {
         headers: { 'Content-Type': 'application/json' , "Authorization": this.context.token},
 
     }
-    this.setState({msg:<div className="spinner-border" role="status">
+    this.setState({msg:<div className="spinner-border" role="status" style={{marginTop:"10%"}}>
     <span className="sr-only">Loading...</span>
   </div>, products:{searchProductDetails:[]}})
   //  this.setState({msg:"Loading..."})
