@@ -33,7 +33,7 @@ class Search extends Component {
   //  this.setState({msg:"Loading..."})
     fetch("/api/walmart/search?keywords="+this.state.query, requestOptions).then(response=>response.json()).then(data=>{
         if(data.search_results===undefined){
-          this.setState({msg:"Sorry. Product not Found. Please try a different search."})
+          this.setState({msg:"Sorry. Product not Found. Please try a different search term."})
         }else{
           this.setState({products:data, output: <div className="results">{data.search_results.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>})
         }
@@ -65,7 +65,7 @@ class Search extends Component {
                 Search for a product!
             </h1>
 
-            <form className="searchform" noValidate onSubmit={this.searchQuery} style={{marginBottom:10}}>
+            <form className="searchform" noValidate onSubmit={this.searchQuery} style={{marginBottom:"15px"}}>
                 <input className="formtext" ref={this.queryInput} value={this.state.query} onChange={this.editQuery} type="text" placeholder="Search"/> 
                 <button type="submit"><i className="fa fa-search"></i></button>
             </form>

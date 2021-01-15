@@ -14,6 +14,7 @@ import Search from "./components/Search";
 import Watchlist from "./components/Watchlist";
 import Navbar from "./components/Navbar"
 import Item from "./components/Item";
+import NotFound from "./components/NotFound";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +62,7 @@ class App extends Component {
               <Route exact path="/search" component={Search} />
               <Route exact path="/watchlist" component={Watchlist} />
               <Route exact path="/item/:upc?" component={Item} />
+              <Route path="/" component={NotFound} />
             </Switch>
           </div>
         </Router>
