@@ -9,7 +9,7 @@ class Watchlist extends Component{
         super(props);
         this.state = {
             output:"",
-            msg:<div class="spinner-border" role="status">
+            msg:<div class="spinner-border" role="status" style={{marginTop:"5%"}}>
             <span class="sr-only">Loading...</span>
           </div>,
             done:false
@@ -21,7 +21,7 @@ class Watchlist extends Component{
         headers: { 'Content-Type': 'application/json' , "Authorization": this.context.token},
 
     }
-    fetch("/api/watchlist", requestOptions).then(response=>response.json()).then((data)=>{
+    fetch("/api/walmart/watchlist", requestOptions).then(response=>response.json()).then((data)=>{
             console.log(data)
             console.log(!data.results.length>0)
             if(!data.results.length>0){

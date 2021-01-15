@@ -9,7 +9,7 @@ class Search extends Component {
     super(props);
     this.state = {
         query:"",
-        products:{searchProductDetails:[]},
+        products:{search_results:[]},
         msg:"",
         output:""
     }
@@ -27,13 +27,14 @@ class Search extends Component {
         headers: { 'Content-Type': 'application/json' , "Authorization": this.context.token},
 
     }
-    this.setState({msg:<div className="spinner-border" role="status" style={{marginTop:"10%"}}>
+    this.setState({msg:<div className="spinner-border" role="status" style={{marginTop:"5%"}}>
     <span className="sr-only">Loading...</span>
-  </div>, products:{searchProductDetails:[]}})
+  </div>, products:{search_results:[]}})
   //  this.setState({msg:"Loading..."})
-    fetch("/api/amazon/search?keywords="+this.state.query, requestOptions).then(response=>response.json()).then(data=>{
-        console.log(data.searchProductDetails);
-            this.setState({products:data, output: <div className="results">{data.searchProductDetails.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>})
+    fetch("/api/walmart/search?keywords="+this.state.query, requestOptions).then(response=>response.json()).then(data=>{
+        console.log(data.search_results);
+  
+            this.setState({products:data, output: <div className="results">{data.search_results.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>})
            // this.state.products.searchProductDetails.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>:<p>{this.state.msg}
 
     }).catch(error=>{
@@ -61,7 +62,7 @@ class Search extends Component {
                 <input className="formtext" ref={this.queryInput} value={this.state.query} onChange={this.editQuery} type="text" placeholder="Search"/> 
                 <button type="submit"><i className="fa fa-search"></i></button>
             </form>
-            {this.state.products.searchProductDetails && this.state.products.searchProductDetails.length>0? 
+            {this.state.products.search_results && this.state.products.search_results.length>0? 
             <div className="card-columns">{this.state.output}</div>:<p>{this.state.msg}</p>}
           </div>
         </div>

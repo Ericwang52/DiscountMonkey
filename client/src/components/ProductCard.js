@@ -6,18 +6,37 @@ import StarRatingComponent from 'react-star-rating-component';
 class ProductCard extends React.Component{
     constructor(props){
         super(props);
-        var image=props.productDetails.imgUrl;
+        console.log("a");
+        console.log(props.productDetails)
+        var image=props.productDetails.product.images.primary_image;
+        console.log(image);
         if(image===undefined){
-            image=props.productDetails.imageUrlList[0];
+            image=props.productDetails.product.images[0];
+        }
+        console.log(props.productDetails.product.images)
+        console.log(props.productDetails.product.images[0])
+        console.log(props.productDetails.product.images[0].link)
+
+     
+        if(typeof image === 'object'){
+            image=props.productDetails.product.images[0].link;
+        }
+        console.log(image);
+    
+    
+        const title=props.productDetails.product.title
+        const rating=props.productDetails.product.rating
+        //for now give amazon link
+        const href= "/item/"+ props.productDetails.product.upc
+        var price =0;
+        if(props.productDetails.offers===undefined){
+            price= Number(props.productDetails.product.buybox_winner.price).toFixed(2);
+        }else{
+            price= Number(props.productDetails.offers.primary.price).toFixed(2)
+
         }
     
-    
-        const title=props.productDetails.productDescription
-        const rating=props.productDetails.productRating
-        //for now give amazon link
-        const href= "https://www.amazon.ca/dp/"+ props.productDetails.asin
-        const price= Number(props.productDetails.price).toFixed(2)
-        const asin=props.productDetails.asin;
+        const asin=props.productDetails.product.item_id;
         var onWatchlist=props.productDetails.onWatchlist;
         console.log(props.productDetails.onWatchlist)
         this.state={
@@ -69,7 +88,7 @@ class ProductCard extends React.Component{
     render(){
             return(
             <div className="card" style={{display:"inline-block",zIndex:0, "margin-bottom":"20px"}}>
-                <img className="card-img-top" src={this.state.image} alt="Product Pic" style= {{"margin-top":"10px", "width":"auto", "max-width":"200px", height:"170px"}}/>
+                <img className="card-img-top" src={this.state.image} alt="Product Pic" style= {{"margin-top":"10px", "width":"auto", "max-width":"200px", height:"200px"}}/>
                 <div className="card-body">
                     <div style={{"text-overflow": "ellipsis", width:"100%", height:"60px" }}>
                     
@@ -78,7 +97,8 @@ class ProductCard extends React.Component{
                     
                     <p className="card-text" style={{textTransform: "capitalize"}}> {"$"+this.state.price}</p> 
                     {/* <p className="card-text" style={{textTransform: "capitalize"}}><b>Rating: </b> {this.state.rating}</p>  */}
-                    {this.state.rating!==null && <StarRatingComponent name="rate2" editing={false} starCount={5} value={(parseFloat(this.state.rating.substring(0,2)))}/>}
+                    {this.state.rating!==null && <StarRatingComponent name="rate2" editing={false} starCount={5} value={this.state.rating}/>}
+                    
                     <br></br>
                     <a style= {{"margin-right":"10px"}}href={this.state.href} className="btn btn-primary" target="_blank" rel="noopener noreferrer">View</a>
                     {this.state.onWatchlist ?  
