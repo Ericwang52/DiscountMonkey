@@ -7,13 +7,14 @@ const bcrypt= require("bcryptjs");
 const {auth, issueJWT, getToken}=require("./auth.js");
 const jwt = require('jsonwebtoken');
 const getItem=require("./amazon").getItem
-const getAllItem=require("./amazon").getAllItem
+const walmartSearch=require("./walmart").walmartSearch
+const getAllPrices= require("./walmart").getAllPrices
 const fetch=require("node-fetch");
 requestsSoFar=0;
 const User=require("../models/user.js")
 const validateSignup = require("./validation/register");
 const validateLogin = require("./validation/login");
-
+const getWItem=require("./walmart").getWItem
 function repeatUser(username){
     User.findOne({username:username}, (err, user)=>{
         if(err){
@@ -110,6 +111,7 @@ router.get('/', auth, (req, res) => {
     message: 'Welcome to the API'
   });
 });
+
 router.post("/register", (req, res, next) => {
 
     bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
@@ -161,7 +163,37 @@ router.post('/login', (req, res) => {
   });
 });
 
-
+router.get("/walmart/search", (req, res)=>{
+    const decoded= getToken(req);
+    console.log(decoded);
+    const userid= decoded.sub;
+    walmartSearch(req.query.keywords).then(response=>response.json()).then(function(data){
+        User.findOne({_id:userid}, (err, user)=>{
+            if(err){
+                res.status(401).json({msg:"u screwed up"});
+            }else if (user){
+                for(i=0; i<user.watchlist.length;i++){
+                    for(j=0;j<data.search_results.length; j++){
+                             console.log(data.search_results[j].product.item_id)
+                             console.log(user.watchlist[i].item)
+                           
+                            // console.log(!data.searchProductDetails[j].onWatchlist);
+                            if(data.search_results[j].product.item_id===user.watchlist[i].item){
+                                data.search_results[j].onWatchlist=true;
+                                break;
+                            }else if (!data.search_results[j].onWatchlist)
+                            {
+                                data.search_results[j].onWatchlist=false;
+                            }
+                    }
+                }
+                //console.log(data)
+                requestsSoFar++;
+                res.status(200).json(data);
+            }
+          });
+    });
+});
 router.get("/amazon/search", (req, res)=>{
     const decoded= getToken(req);
     console.log(decoded);
@@ -230,13 +262,44 @@ router.get("/watchlist", auth, (req, res)=>{
         }
     });
 });
+router.get("/walmart/watchlist", (req, res)=>{
+    const decoded= getToken(req);
+    console.log(decoded);
+    const userid= decoded.sub;
+    User.findOne({_id:userid}, (err, user)=>{
+        if(err){
+            res.status(401).json({msg:"u screwed up"});
+        }
+        else if(user){
+            const arr= user.watchlist;
 
-router.get("/item/:id", (req, res)=>{
-    getAllItem(req.params.id).then((data)=>{
-        return data.json();
-    }).then((data)=>{
+            var promises= user.watchlist.map((data)=>{
+                return getWItem(data.item).then((response)=>response.json()).then(x=>{
+                    x.onWatchlist=true;
+                    console.log(x)
+                    return x;
+                });
+            });
+            Promise.all(promises).then((results)=>{
+                res.status(200).json({results:results});
+            });
+
+        }else{
+            res.status(401).json({msg:"u screwed up"});
+        }
+    });
+});
+router.get("/item", (req, res)=>{
+    getAllPrices(req.query.upc).then(response=>response.json()).then(data=>{
+        requestsSoFar++;
+        console.log(data);
         res.status(200).json(data);
     });
+    // getAllItem(req.params.id).then((data)=>{
+    //     return data.json();
+    // }).then((data)=>{
+    //     res.status(200).json(data);
+    // });
 });
 router.post("/refresh", (req, res) => {
     // Form validation

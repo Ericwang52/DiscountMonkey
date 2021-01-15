@@ -15,12 +15,7 @@ module.exports.getItem=function (id){
                           throw "too man requests";
                       }
                       console.log(requestsSoFar);
-                      resolve(data)
+                      resolve(data.search_results)
                     });
-    });
-}
-module.exports.getAllItem=function(id){
-    return new Promise((resolve,reject)=>{
-        fetch("https://api.apigenius.io/products/search?keyword=mouse")
     });
 }

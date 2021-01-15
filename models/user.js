@@ -8,7 +8,7 @@ const User = mongoose.model(
       username: { type: String, required: true },
       password: { type: String, required: true }, 
       email:{type:String, required:true},
-      watchlist: {type: [{item: String, specificItem: Boolean}], required: false}
+      watchlist: {type: [{item: String, itemUPC: String}], required: false}
     })
   );
 module.exports=User
