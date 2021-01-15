@@ -6,9 +6,9 @@ const mongoose = require("mongoose");
 const bcrypt= require("bcryptjs");
 const {auth, issueJWT, getToken}=require("./auth.js");
 const jwt = require('jsonwebtoken');
-const getItem=require("./amazon").getItem
-const walmartSearch=require("./walmart").walmartSearch
-const getAllPrices= require("./walmart").getAllPrices
+
+const {walmartSearch, getAllPrices}=require("./walmart")
+
 const fetch=require("node-fetch");
 requestsSoFar=0;
 const User=require("../models/user.js")
@@ -173,7 +173,7 @@ router.get("/walmart/search", auth, (req, res)=>{
         }
         User.findOne({_id:userid}, (err, user)=>{
             if(err){
-                res.status(401).json({msg:"u screwed up"});
+                res.status(401).json({msg:"Database error"});
             }else if (user){
                 for(i=0; i<user.watchlist.length;i++){
                     for(j=0;j<data.search_results.length; j++){
@@ -196,78 +196,14 @@ router.get("/walmart/search", auth, (req, res)=>{
           });
     });
 });
-router.get("/amazon/search", auth, (req, res)=>{
-    const decoded= getToken(req);
 
-    const userid= decoded.sub;
-    fetch('https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-search-by-keyword-asin?domainCode=ca&keyword='+req.query.keywords+'&page=1&sortBy=relevanceblender', { 
-    method: 'get', 
-    headers: new fetch.Headers({
-        "x-rapidapi-key": process.env.API_KEY,
-        "x-rapidapi-host": "axesso-axesso-amazon-data-service-v1.p.rapidapi.com",
-        "useQueryString": true
-    }), 
-
-  }).then((response)=>response.json()).then(function(data){
-      User.findOne({_id:userid}, (err, user)=>{
-        if(err){
-            res.status(401).json({msg:"u screwed up"});
-        }else if (user){
-            for(i=0; i<user.watchlist.length;i++){
-                for(j=0;j<data.searchProductDetails.length; j++){
-                        
-                        if(data.searchProductDetails[j].asin===user.watchlist[i].item){
-                            data.searchProductDetails[j].onWatchlist=true;
-                            break;
-                        }else if (!data.searchProductDetails[j].onWatchlist)
-                        {
-                            data.searchProductDetails[j].onWatchlist=false;
-                        }
-                }
-            }
- 
-            requestsSoFar++;
-            res.status(200).json(data);
-        }
-      });
-   
-
-  });
-});
-router.get("/watchlist", auth, (req, res)=>{
-    const decoded= getToken(req);
-  
-    const userid= decoded.sub;
-    User.findOne({_id:userid}, (err, user)=>{
-        if(err){
-            res.status(401).json({msg:"u screwed up"});
-        }
-        else if(user){
-            const arr= user.watchlist;
-
-            var promises= user.watchlist.map((data)=>{
-                return getItem(data.item).then((response)=>response.json()).then(x=>{
-                    x.onWatchlist=true;
-                  
-                    return x;
-                });
-            });
-            Promise.all(promises).then((results)=>{
-                res.status(200).json({results:results});
-            });
-
-        }else{
-            res.status(401).json({msg:"u screwed up"});
-        }
-    });
-});
 router.get("/walmart/watchlist", auth, (req, res)=>{
     const decoded= getToken(req);
 
     const userid= decoded.sub;
     User.findOne({_id:userid}, (err, user)=>{
         if(err){
-            res.status(401).json({msg:"u screwed up"});
+            res.status(401).json({msg:"Database error"});
         }
         else if(user){
             const arr= user.watchlist;
@@ -284,7 +220,7 @@ router.get("/walmart/watchlist", auth, (req, res)=>{
             });
 
         }else{
-            res.status(401).json({msg:"u screwed up"});
+            res.status(401).json({msg:"Database error"});
         }
     });
 });
