@@ -33,7 +33,7 @@ class Search extends Component {
   //  this.setState({msg:"Loading..."})
     fetch("/api/walmart/search?keywords="+this.state.query, requestOptions).then(response=>response.json()).then(data=>{
         if(data.search_results===undefined){
-          this.setState({msg:"Sorry. Product not Found"})
+          this.setState({msg:"Sorry. Product not Found. Please try a different search."})
         }else{
           this.setState({products:data, output: <div className="results">{data.search_results.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>})
         }

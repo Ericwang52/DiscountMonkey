@@ -28,7 +28,7 @@ class Item extends Component{
     fetch("/api/item?upc="+this.props.match.params.upc, requestOptions).then(response=>response.json()).then((data)=>{
       if(data.items===undefined){
         this.setState({msg: "Sorry. Item not found"});
-        this.props.history.push("/");
+     //   this.props.history.push("/");
       }else{
         this.setState({done: true, title:data.items.title, image:data.items.images[0], output: data.items.pricing.map(sellerDetails => <Seller sellerDetails={sellerDetails}/>)})
       }
@@ -50,7 +50,7 @@ class Item extends Component{
             <h1>
                 Offers for {this.state.title}
             </h1>
-          <img src={this.state.image} style={{"max-height":"300px", "width":"auto"}}></img>
+          <img src={this.state.image} style={{"max-height":"300px", "width":"auto", "margin-top":"10px", "margin-bottom":"25px"}}></img>
         <div className= "card-columns">{this.state.output}</div>
         </div>
         :<p>{this.state.msg}</p>}
