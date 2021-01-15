@@ -15,6 +15,7 @@ const User=require("../models/user.js")
 const validateSignup = require("./validation/register");
 const validateLogin = require("./validation/login");
 const getWItem=require("./walmart").getWItem
+
 function repeatUser(username){
     User.findOne({username:username}, (err, user)=>{
         if(err){
@@ -163,11 +164,14 @@ router.post('/login', (req, res) => {
   });
 });
 
-router.get("/walmart/search", (req, res)=>{
+router.get("/walmart/search", auth, (req, res)=>{
     const decoded= getToken(req);
     console.log(decoded);
     const userid= decoded.sub;
     walmartSearch(req.query.keywords).then(response=>response.json()).then(function(data){
+        if(data.search_results===undefined){
+            return res.status(404).json({msg:"Sorry. Product not found"})
+        }
         User.findOne({_id:userid}, (err, user)=>{
             if(err){
                 res.status(401).json({msg:"u screwed up"});
@@ -194,7 +198,7 @@ router.get("/walmart/search", (req, res)=>{
           });
     });
 });
-router.get("/amazon/search", (req, res)=>{
+router.get("/amazon/search", auth, (req, res)=>{
     const decoded= getToken(req);
     console.log(decoded);
     const userid= decoded.sub;
@@ -262,7 +266,7 @@ router.get("/watchlist", auth, (req, res)=>{
         }
     });
 });
-router.get("/walmart/watchlist", (req, res)=>{
+router.get("/walmart/watchlist", auth, (req, res)=>{
     const decoded= getToken(req);
     console.log(decoded);
     const userid= decoded.sub;
@@ -289,7 +293,7 @@ router.get("/walmart/watchlist", (req, res)=>{
         }
     });
 });
-router.get("/item", (req, res)=>{
+router.get("/item", auth, (req, res)=>{
     getAllPrices(req.query.upc).then(response=>response.json()).then(data=>{
         requestsSoFar++;
         console.log(data);

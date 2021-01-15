@@ -32,14 +32,21 @@ class Search extends Component {
   </div>, products:{search_results:[]}})
   //  this.setState({msg:"Loading..."})
     fetch("/api/walmart/search?keywords="+this.state.query, requestOptions).then(response=>response.json()).then(data=>{
-        console.log(data.search_results);
-  
-            this.setState({products:data, output: <div className="results">{data.search_results.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>})
+        if(data.search_results===undefined){
+          this.setState({msg:"Sorry. Product not Found"})
+        }else{
+          this.setState({products:data, output: <div className="results">{data.search_results.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>})
+        }
+            
            // this.state.products.searchProductDetails.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>:<p>{this.state.msg}
 
     }).catch(error=>{
-        this.context.toggleLogout()
-        this.props.history.push("/login");
+      console.log(error)
+
+          this.context.toggleLogout()
+          this.props.history.push("/login");
+        
+
     })
     this.queryInput.current.blur()
   }

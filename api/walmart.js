@@ -11,6 +11,7 @@ module.exports.walmartSearch=function (term){
                           throw "too man requests";
                       }
                       console.log(requestsSoFar);
+                      console.log(data)
                       resolve(data)
                     });
     });
