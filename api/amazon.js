@@ -14,7 +14,7 @@ module.exports.getItem=function (id){
                       if(requestsSoFar>100){
                           throw "too man requests";
                       }
-                      console.log(requestsSoFar);
+                
                       resolve(data.search_results)
                     });
     });

@@ -41,7 +41,7 @@ class Search extends Component {
            // this.state.products.searchProductDetails.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>:<p>{this.state.msg}
 
     }).catch(error=>{
-      console.log(error)
+
 
           this.context.toggleLogout()
           this.props.history.push("/login");

@@ -8,7 +8,7 @@ class Item extends Component{
     constructor(props){
 
         super(props);
-        console.log(this.props.match.params.upc)
+
         this.state = {
             output:"",
             msg:<div class="spinner-border" role="status" style={{marginTop:"10%"}}>
@@ -27,7 +27,7 @@ class Item extends Component{
     }
     fetch("/api/item?upc="+this.props.match.params.upc, requestOptions).then(response=>response.json()).then((data)=>{
       if(data.items===undefined){
-        this.setState({msg: "Sorry. Item not found"});
+        this.setState({msg: "Sorry. Item not found."});
      //   this.props.history.push("/");
       }else{
         this.setState({done: true, title:data.items.title, image:data.items.images[0], output: data.items.pricing.map(sellerDetails => <Seller sellerDetails={sellerDetails}/>)})

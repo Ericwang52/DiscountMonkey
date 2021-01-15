@@ -22,8 +22,7 @@ class Watchlist extends Component{
 
     }
     fetch("/api/walmart/watchlist", requestOptions).then(response=>response.json()).then((data)=>{
-            console.log(data)
-            console.log(!data.results.length>0)
+
             if(!data.results.length>0){
                 console.log("nothing")
                 this.setState({done:true, output:<p style={{"margin-top":"20px", "font-size":"20px"}}>You have nothing on your watchlist</p>})

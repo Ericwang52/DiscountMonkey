@@ -6,7 +6,7 @@ import LinesEllipsis from "react-lines-ellipsis";
 class Seller extends React.Component{
     constructor(props){
         super(props);
-        console.log("a");
+  
     
     
         const name=props.sellerDetails.seller

@@ -67,7 +67,7 @@ router.post("/:id/delete", auth,
     (req, res)=>{
         const userid= getToken(req).sub
         User.findOneAndUpdate({_id:userid}, {$pull:{watchlist:{item:req.params.id}}}, (err, data)=>{
-            console.log(err, data);
+  
             res.status(200).json({msg:"gucci"});
         });
                      
@@ -77,25 +77,24 @@ router.post("/:id/add", auth,
     (req, res)=>{
     const id= req.params.id;
     const decoded= getToken(req);
-    console.log(decoded);
+
     const userid= decoded.sub;
-    console.log(req.body.specific);
+
     const tosave= {item:id, specificItem:req.body.specific};
-    console.log(userid);
-    console.log(id);
+
     User.findOne({_id:userid}, (err, user)=>{
         if(err){
-            console.log("nouser")
+   
             res.status(401).json({msg:"u screwed up"});
         }
         else if(user){
             user.watchlist.push(tosave);
             user.save(err => {
                 if(err){
-                    console.log("badsave")
+               
                     res.status(401).json({msg:"uscrewedup", error:err});
                 }else{
-                    console.log("done")
+             
                     res.status(200).json({msg:"done"});
                 }
             });
@@ -107,7 +106,7 @@ router.post("/:id/add", auth,
 } );
 
 router.get('/', auth, (req, res) => {
-       // console.log(jwt.verify(getToken(req), "secretkey"));
+   
   res.json({
     message: 'Welcome to the API'
   });
@@ -136,7 +135,7 @@ router.post("/register", (req, res, next) => {
 
 
 router.post('/login', (req, res) => {
-    console.log("log req")
+
  const { errors, isValid } = validateLogin(req.body);
     // Check validation
     if (!isValid) {
@@ -144,7 +143,7 @@ router.post('/login', (req, res) => {
     }
   User.findOne({ username: req.body.username }, (err, user) => {
     if (!user) {
-        console.log("bad")
+       
         return res.status(404).json({ usernamenotfound: "Username not found" });
     }
     bcrypt.compare(req.body.password, user.password, (err, ress) => {
@@ -166,7 +165,7 @@ router.post('/login', (req, res) => {
 
 router.get("/walmart/search", auth, (req, res)=>{
     const decoded= getToken(req);
-    console.log(decoded);
+
     const userid= decoded.sub;
     walmartSearch(req.query.keywords).then(response=>response.json()).then(function(data){
         if(data.search_results===undefined){
@@ -178,10 +177,9 @@ router.get("/walmart/search", auth, (req, res)=>{
             }else if (user){
                 for(i=0; i<user.watchlist.length;i++){
                     for(j=0;j<data.search_results.length; j++){
-                             console.log(data.search_results[j].product.item_id)
-                             console.log(user.watchlist[i].item)
+   
                            
-                            // console.log(!data.searchProductDetails[j].onWatchlist);
+          
                             if(data.search_results[j].product.item_id===user.watchlist[i].item){
                                 data.search_results[j].onWatchlist=true;
                                 break;
@@ -191,7 +189,7 @@ router.get("/walmart/search", auth, (req, res)=>{
                             }
                     }
                 }
-                //console.log(data)
+
                 requestsSoFar++;
                 res.status(200).json(data);
             }
@@ -200,7 +198,7 @@ router.get("/walmart/search", auth, (req, res)=>{
 });
 router.get("/amazon/search", auth, (req, res)=>{
     const decoded= getToken(req);
-    console.log(decoded);
+
     const userid= decoded.sub;
     fetch('https://axesso-axesso-amazon-data-service-v1.p.rapidapi.com/amz/amazon-search-by-keyword-asin?domainCode=ca&keyword='+req.query.keywords+'&page=1&sortBy=relevanceblender', { 
     method: 'get', 
@@ -217,10 +215,7 @@ router.get("/amazon/search", auth, (req, res)=>{
         }else if (user){
             for(i=0; i<user.watchlist.length;i++){
                 for(j=0;j<data.searchProductDetails.length; j++){
-                        console.log(data.searchProductDetails[j].asin)
-                        console.log(user.watchlist[i].item)
-                        console.log(data.searchProductDetails[j].asin===user.watchlist[i].item);
-                        console.log(!data.searchProductDetails[j].onWatchlist);
+                        
                         if(data.searchProductDetails[j].asin===user.watchlist[i].item){
                             data.searchProductDetails[j].onWatchlist=true;
                             break;
@@ -230,18 +225,18 @@ router.get("/amazon/search", auth, (req, res)=>{
                         }
                 }
             }
-            //console.log(data)
+ 
             requestsSoFar++;
             res.status(200).json(data);
         }
       });
-     // console.log(data);
+   
 
   });
 });
 router.get("/watchlist", auth, (req, res)=>{
     const decoded= getToken(req);
-    console.log(decoded);
+  
     const userid= decoded.sub;
     User.findOne({_id:userid}, (err, user)=>{
         if(err){
@@ -253,7 +248,7 @@ router.get("/watchlist", auth, (req, res)=>{
             var promises= user.watchlist.map((data)=>{
                 return getItem(data.item).then((response)=>response.json()).then(x=>{
                     x.onWatchlist=true;
-                    console.log(x)
+                  
                     return x;
                 });
             });
@@ -268,7 +263,7 @@ router.get("/watchlist", auth, (req, res)=>{
 });
 router.get("/walmart/watchlist", auth, (req, res)=>{
     const decoded= getToken(req);
-    console.log(decoded);
+
     const userid= decoded.sub;
     User.findOne({_id:userid}, (err, user)=>{
         if(err){
@@ -280,7 +275,7 @@ router.get("/walmart/watchlist", auth, (req, res)=>{
             var promises= user.watchlist.map((data)=>{
                 return getWItem(data.item).then((response)=>response.json()).then(x=>{
                     x.onWatchlist=true;
-                    console.log(x)
+                
                     return x;
                 });
             });
@@ -296,7 +291,7 @@ router.get("/walmart/watchlist", auth, (req, res)=>{
 router.get("/item", auth, (req, res)=>{
     getAllPrices(req.query.upc).then(response=>response.json()).then(data=>{
         requestsSoFar++;
-        console.log(data);
+
         res.status(200).json(data);
     });
     // getAllItem(req.params.id).then((data)=>{
@@ -310,7 +305,7 @@ router.post("/refresh", (req, res) => {
 
     jwt.verify(req.headers['authorization'].split(' ')[1], process.env.SECRET_KEY, (err,decoded) =>{
       if(err){
-        console.log(err)
+ 
         return res
           .status(400)
           .json({ error: "Invallid/Expired Token" });

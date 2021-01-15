@@ -11,7 +11,7 @@ class Navbar extends Component {
   render() {
     var route;
     var text;
-    console.log(this.props.location.pathname);
+
     if(this.props.location.pathname==="/watchlist"){
         route="/search";
         text= "SEARCH"

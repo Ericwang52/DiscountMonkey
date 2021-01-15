@@ -45,7 +45,7 @@ class Login extends Component {
           return r
         })
         .then(data => {
-            console.log(data);
+
           this.setState({ errors: data })
           if(data.success===true){
               toggleLogin(data.token)

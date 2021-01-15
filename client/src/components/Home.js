@@ -8,7 +8,7 @@ class Landing extends Component {
   render() {
     //Redirect if logged in
     if(this.context.loggedIn){
-        console.log(this.context.loggedIn)
+
       this.props.history.push("/search");
     }
     return (

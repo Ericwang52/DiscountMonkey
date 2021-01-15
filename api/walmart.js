@@ -2,7 +2,7 @@ const fetch=require("node-fetch");
 require('dotenv').config();
 module.exports.walmartSearch=function (term){
     return new Promise((resolve, reject)=>{
-        console.log("https://api.bluecartapi.com/request?api_key="+process.env.WALMART_API_KEY+"&type=search&search_term="+term+"&sort_by=best_seller")
+       
      fetch("https://api.bluecartapi.com/request?api_key="+process.env.WALMART_API_KEY+"&type=search&search_term="+term+"&sort_by=best_seller", { 
                     method: 'get', 
                   }).then(function(data){
@@ -10,8 +10,7 @@ module.exports.walmartSearch=function (term){
                       if(requestsSoFar>100){
                           throw "too man requests";
                       }
-                      console.log(requestsSoFar);
-                      console.log(data)
+
                       resolve(data)
                     });
     });
@@ -26,7 +25,7 @@ module.exports.getAllPrices=function(upc){
                       if(requestsSoFar>100){
                           throw "too man requests";
                       }
-                      console.log(requestsSoFar);
+                    
                       resolve(data)
                     });
     });
@@ -38,7 +37,7 @@ module.exports.getWItem=function(id){
             if(requestsSoFar>100){
                 throw "too man requests";
             }
-            console.log(requestsSoFar);
+   
             data.onWatchlist=true;
             resolve(data)
           });

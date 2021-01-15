@@ -46,10 +46,7 @@ class App extends Component {
       token: t
     }  
   }
-  componentDidMount() {
-   // console.log('clearing localstorage')
-    //localStorage.clear();
-  }
+
 
   render() {
     return (

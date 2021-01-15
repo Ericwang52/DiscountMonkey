@@ -6,22 +6,19 @@ import StarRatingComponent from 'react-star-rating-component';
 class ProductCard extends React.Component{
     constructor(props){
         super(props);
-        console.log("a");
-        console.log(props.productDetails)
+
         var image=props.productDetails.product.images.primary_image;
-        console.log(image);
+
         if(image===undefined){
             image=props.productDetails.product.images[0];
         }
-        console.log(props.productDetails.product.images)
-        console.log(props.productDetails.product.images[0])
-        console.log(props.productDetails.product.images[0].link)
+
 
      
         if(typeof image === 'object'){
             image=props.productDetails.product.images[0].link;
         }
-        console.log(image);
+
     
     
         const title=props.productDetails.product.title
@@ -38,7 +35,7 @@ class ProductCard extends React.Component{
     
         const asin=props.productDetails.product.item_id;
         var onWatchlist=props.productDetails.onWatchlist;
-        console.log(props.productDetails.onWatchlist)
+       
         this.state={
             title, rating, href, price, image, asin, onWatchlist
         }
@@ -51,16 +48,16 @@ class ProductCard extends React.Component{
             headers: { 'Content-Type': 'application/json' , "Authorization": this.context.token},
     
         }
-        console.log(this.state.asin);
+
         fetch("/api/"+this.state.asin+"/delete", requestOptions).then(response=>response.json()).then(data=>{
-            console.log(data)
+
             this.setState({
                 onWatchlist:false
             })
                // this.state.products.searchProductDetails.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>:<p>{this.state.msg}
     
         }).catch(error=>{
-            console.log(error);
+
             this.context.toggleLogout()
             this.context.history.push("/login");
         })
@@ -71,16 +68,16 @@ class ProductCard extends React.Component{
             headers: { 'Content-Type': 'application/json' , "Authorization": this.context.token},
     
         }
-        console.log(this.state.asin);
+
         fetch("/api/"+this.state.asin+"/add", requestOptions).then(response=>response.json()).then(data=>{
-            console.log(data)
+   
             this.setState({
                 onWatchlist:true
             })
                // this.state.products.searchProductDetails.map(productDetails => <ProductCard productDetails={productDetails}/>)}</div>:<p>{this.state.msg}
     
         }).catch(error=>{
-            console.log(error);
+ 
             this.context.toggleLogout()
             this.context.history.push("/login");
         })

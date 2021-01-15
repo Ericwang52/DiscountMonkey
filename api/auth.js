@@ -17,7 +17,7 @@ const strategy= new JwtStrategy(options1, (payload, done)=> {
             return done(err, null);
         }
         if(user){
-            console.log(user);
+
             return done(null, user);
         } else{
             return done(null, false);
