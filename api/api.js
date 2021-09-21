@@ -237,7 +237,7 @@ router.get("/item", auth, (req, res)=>{
             });
             Promise.all(promises).then((results)=>{
                      console.log("results\n", results)
-              getAllPrices(results.productDetails.product.item_id).then(response=>response.json()).then(data=>{
+              getAllPrices(results.product.upc).then(response=>response.json()).then(data=>{
     console.log("data\n", data)
         requestsSoFar++;
 
