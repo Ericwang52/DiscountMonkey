@@ -24,7 +24,7 @@ class ProductCard extends React.Component{
         const title=props.productDetails.product.title
         const rating=props.productDetails.product.rating
         //for now give amazon link
-        const href= "/item/"+ props.productDetails.product.upc
+        const href= "/item/"+ props.productDetails.product.item_id
         var price =0;
         if(props.productDetails.offers===undefined){
             price= Number(props.productDetails.product.buybox_winner.price).toFixed(2);
