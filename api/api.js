@@ -225,7 +225,7 @@ router.get("/walmart/watchlist", auth, (req, res)=>{
     });
 });
 router.get("/item", auth, (req, res)=>{
-    var arr=[req.query.upc
+    var arr=[req.query.upc]
     var promises= arr.map((data)=>{
                 return getWItem(data.item).then((response)=>response.json()).then(x=>{
                     x.onWatchlist=true;
