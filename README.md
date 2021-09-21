@@ -3,10 +3,10 @@ Discount Monkey is a price comparing app using the most updated web scraped data
 ![Login Page](https://i.ibb.co/S3bC34S/Screen-Shot-2021-09-21-at-12-59-59-PM.png)
 
 ## How To Use 
-After registering on the website, users are prompted to search for the items they are looking for. The initial search results are based off of walmart's API
+After registering on the website, users are prompted to search for the items they are looking for. The initial search results are based off of walmart's API.
 ![Search Results](https://i.ibb.co/mSbY4qH/Screen-Shot-2021-09-21-at-1-04-03-PM.png)
 
-The user can then add items to their watchlist or choose to view the different web scraped prices available for the exact item
+The user can then add items to their watchlist or choose to view the different web scraped prices available for the exact item.
 ![Prices](https://i.ibb.co/ZWKBqKj/Screen-Shot-2021-09-21-at-1-05-23-PM.png)
 
 ## How It Works/Technologies Used
