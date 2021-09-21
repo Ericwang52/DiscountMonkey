@@ -231,7 +231,7 @@ router.get("/item", auth, (req, res)=>{
             console.log("data\n", data)
                 return getWItem(data.item).then((response)=>response.json()).then(x=>{
                     x.onWatchlist=true;
-                    console.log("response\n", response)
+                    console.log("response\n", x)
                     return x;
                 });
             });
