@@ -226,15 +226,19 @@ router.get("/walmart/watchlist", auth, (req, res)=>{
 });
 router.get("/item", auth, (req, res)=>{
     var arr=[req.query.upc]
+    console.log("arr\n", arr)
     var promises= arr.map((data)=>{
+            console.log("data\n", data)
                 return getWItem(data.item).then((response)=>response.json()).then(x=>{
                     x.onWatchlist=true;
-                
+                    console.log("response\n", response)
                     return x;
                 });
             });
             Promise.all(promises).then((results)=>{
+                     console.log("results\n", results)
               getAllPrices(results.productDetails.product.item_id).then(response=>response.json()).then(data=>{
+    console.log("data\n", data)
         requestsSoFar++;
 
         res.status(200).json(data);
