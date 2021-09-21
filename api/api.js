@@ -224,18 +224,19 @@ router.get("/walmart/watchlist", auth, (req, res)=>{
         }
     });
 });
-router.get("/item", auth, (req, res)=>{
-    getAllPrices(req.query.upc).then(response=>response.json()).then(data=>{
-        requestsSoFar++;
-
-        res.status(200).json(data);
-    });
-    // getAllItem(req.params.id).then((data)=>{
-    //     return data.json();
-    // }).then((data)=>{
-    //     res.status(200).json(data);
-    // });
-});
+router.get("/item", auth, (req, res)=>{ 
+    var arr=[req.query.upc] 
+    var promise= arr.map((data)=>{ 
+        return getWItem(data).then((response)=>
+                                   response.json()).then(x=>{ 
+            return x; 
+        }); 
+    }); 
+    Promise.all(promises).then((results)=>{ 
+        getAllPrices(data.product.upc).then(response=>response.json()).then(data2=>{ 
+            requestsSoFar++; res.status(200).json({results:results}); 
+        }); 
+    }); // getAllItem(req.params.id).then((data)=>{ // return data.json(); // }).then((data)=>{ // res.status(200).json(data); // }); });
 router.post("/refresh", (req, res) => {
     // Form validation
 
