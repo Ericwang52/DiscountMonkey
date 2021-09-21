@@ -229,7 +229,7 @@ router.get("/item", auth, (req, res)=>{
     console.log("arr\n", arr)
     var promises= arr.map((data)=>{
             console.log("data\n", data)
-                return getWItem(data.item).then((response)=>response.json()).then(x=>{
+                return getWItem(data).then((response)=>response.json()).then(x=>{
                     x.onWatchlist=true;
                     console.log("response\n", x)
                     return x;
