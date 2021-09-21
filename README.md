@@ -1,6 +1,6 @@
 # Welcome to Discount Monkey!
 Discount Monkey is a price comparing app using the most updated web scraped data. Try it out [here](http://discountmonkey.herokuapp.com/)!
-![Login Page](https://ibb.co/DRh2RHd)
+<img width="1440" src="https://ibb.co/DRh2RHd">
 
 ## How To Use 
 After registering on the website, users are prompted to search for the items they are looking for. The initial search results are based off of walmart's API
