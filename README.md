@@ -15,3 +15,4 @@ This project is built with the **MERN** stack. The frontend is built with **Boot
 User passwords are secured/encrypted with bcryptJS, and authentication is facilitated with the PassportJS middleware, with the **JSON Web Token** strategy.
 
 
+
